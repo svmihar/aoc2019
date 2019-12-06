@@ -62,9 +62,71 @@ def run(program: Program, input: List[int]) -> List[int]:
             pos += 2
         elif opcode == 4:
             # get output from a certain location
-            loc = program[pos+1]
-            output.append(program[loc])
+            if modes[0] == 0:
+                loc = program[pos+1]
+                value = program[loc]
+            else:
+                value = program[pos+1]
+            output.append(value)
             pos += 2
+        elif opcode == 5:
+            # jump if tru
+            if modes[0] == 0:
+                value1 = program[program[pos+1]]
+            else:
+                value1 = program[pos+1]
+            if modes[1] == 0:
+                value2 = program[program[pos+2]]
+            else:
+                value2 = program[pos+2]
+            if value1 != 0:
+                pos = value2
+            else:
+                pos+=3
+        elif opcode == 6:
+            # jump if tru
+            if modes[0] == 0:
+                value1 = program[program[pos+1]]
+            else:
+                value1 = program[pos+1]
+            if modes[1] == 0:
+                value2 = program[program[pos+2]]
+            else:
+                value2 = program[pos+2]
+            if value1 == 0:
+                pos = value2
+            else:
+                pos+=3
+        elif opcode == 7:
+            # less than
+            if modes[0] == 0:
+                value1 = program[program[pos+1]]
+            else:
+                value1 = program[pos+1]
+            if modes[1] == 0:
+                value2 = program[program[pos+2]]
+            else:
+                value2 = program[pos+2]
+            if value1 < value2:
+                program[program[pos+3]] = 1
+            else:
+                program[program[pos+3]] = 0
+            pos+=4
+
+        elif opcode ==8:
+            if modes[0] == 0:
+                value1 = program[program[pos+1]]
+            else:
+                value1 = program[pos+1]
+            if modes[1] == 0:
+                value2 = program[program[pos+2]]
+            else:
+                value2 = program[pos+2]
+            if value1 == value2:
+                program[program[pos+3]] = 1
+            else:
+                program[program[pos+3]] = 0
+            pos+=4
         else:
             raise ValueError(f'invalid opcode: {opcode}')
 
